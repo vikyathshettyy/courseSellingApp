@@ -1,9 +1,14 @@
-const { Router } = require("express");
+
 const adminMiddleware = require("../middleware/admin");
-const router = Router();
+const { Admin,Course } = require("../db");
+
+
+const express = require('express')
+const router = express.Router()
+
 
 // Admin Routes
-app.post('/signup', async function (req, res) {
+router.post('/signup', async function (req, res) {
     // Implement admin signup logic
     const username1 = req.headers.username;
     const password1 = req.headers.password;
@@ -16,7 +21,7 @@ app.post('/signup', async function (req, res) {
 
 });
 
-app.post('/courses', adminMiddleware, async function(req, res) {
+router.post('/courses', adminMiddleware, async function(req, res) {
     // Implement course creation logic
     const username1 = req.headers.username;
     const password1 = req.headers.password;
@@ -28,6 +33,7 @@ app.post('/courses', adminMiddleware, async function(req, res) {
             price: req.body.price,
             imageLink: req.body.imageLink,
             adminid: admin._id,
+            published: true,
          })
          res.status(200).json({
              message: 'Course created successfully', courseId: course._id
@@ -42,8 +48,11 @@ app.post('/courses', adminMiddleware, async function(req, res) {
    
 });
 
-app.get('/courses', adminMiddleware, (req, res) => {
+router.get('/courses', adminMiddleware, async function (req, res) {
     // Implement fetching all courses logic
+    const username1 = req.headers.username;
+    const courses = await Course.find({});
+    res.json(courses);
 });
 
 module.exports = router;

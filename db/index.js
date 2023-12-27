@@ -11,6 +11,7 @@ const AdminSchema = new mongoose.Schema({
 
     
 });
+const Admin = mongoose.model('Admin', AdminSchema);
 
 const UserSchema = new mongoose.Schema({
     // Schema definition here
@@ -19,6 +20,7 @@ const UserSchema = new mongoose.Schema({
     
 
 });
+const User = mongoose.model('User', UserSchema);
 
 const CourseSchema = new mongoose.Schema({
     // Schema definition here
@@ -27,27 +29,29 @@ const CourseSchema = new mongoose.Schema({
     price: Number,
     imageLink: String,
     adminid:{
-        type:mongooose.SchemaTypes.ObjectId,
-        ref:Admin,
-    } 
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'Admin',
+    }, 
+    published: Boolean,
     
     
 });
 
+const Course = mongoose.model('Course', CourseSchema);
+
 const PurchaseSchema = new mongoose.Schema({
     userid: {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: User,
+        ref: 'User',
     },
     courseid:{
         type: mongoose.SchemaTypes.ObjectId,
-        ref: Course,
+        ref: 'Course',
     }, 
 })
 
-const Admin = mongoose.model('Admin', AdminSchema);
-const User = mongoose.model('User', UserSchema);
-const Course = mongoose.model('Course', CourseSchema);
+
+
 const Purchase = mongoose.model('Purchase',PurchaseSchema);
 
 module.exports = {
